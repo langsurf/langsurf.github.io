@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content=".">
+    <meta name="keywords"
+        content="DepthCrafter, video depth estimation, monocular depth estimation, video, depth, open-world">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LangSurf</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+    <link rel="stylesheet" href="./static/css/bulma.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="./static/css/twentytwenty.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="./static/css/index.css">
+    <link rel="icon" href="./img/logo.png">
+
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+    <script src="./static/js/jquery-3.2.1.min.js"></script>
+    <script src="./static/js/jquery.event.move.js"></script>
+    <script src="./static/js/jquery.twentytwenty.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <script src="./static/js/fontawesome.all.min.js"></script>
+</head>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LKCDBW8851"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-LKCDBW8851');
+</script>
+
+
+<body>
+
+
+    <section class="hero teaser ">
+        <div class="hero-body">
+            <div class="container is-max-desktop has-text-centered">
+                <div class="columns is-centered">
+                    <div class="column has-text-centered ">
+                        <img src="img/logo.png" style="height:170px; margin-bottom: -10px;"></img>
+                        <h1 class="title is-1 publication-title has-text-centered">
+                            <span style="color: #48a7b5  ;font-weight: bolder;">LangSurf</span>: Language-Embedded Surface Gaussians for 3D Scene Understanding
+                        </h1>
+                        <h2 class="title publication-title is-4 has-text-grey"> arXiv 2024</h2>
+                        <div class="is-size-5 publication-authors">
+
+                            <span class="author-block">
+                                <a href="https://lifuguan.github.io">Hao Li</a><sup>1,2,* </sup> </span>
+                            <span class="author-block">
+                                <a href="https://scholar.google.com/citations?user=qgdesEcAAAAJ&hl=en">Minghan
+                                    Qin</a><sup>2,*, &dagger;</sup></span>
+                            <span class="author-block">
+                                <a href="https://scholar.google.com/citations?user=tZ3dS3MAAAAJ&hl=en">Zhengyu
+                                    Zou</a><sup>1,*</sup>
+                            </span>
+                            <span class="author-block">
+                                <a href="https://scholar.google.com/citations?user=tZ3dS3MAAAAJ&hl=en">Diqi
+                                    He</a><sup>1</sup>
+                            </span>
+                            <br>
+
+                            <span class="author-block">
+                                <a href="https://scholar.google.com/citations?user=tZ3dS3MAAAAJ&hl=en">Yongjie
+                                    Zhang</a><sup>2</sup>
+                            </span>
+                            <span class="author-block">
+                                <a href="https://scholar.google.com/citations?user=tZ3dS3MAAAAJ&hl=en">Dingwen
+                                    Zhang</a><sup>1, &dagger;</sup>
+                            </span>
+                            <span class="author-block">
+                                <a href="https://scholar.google.com/citations?user=tZ3dS3MAAAAJ&hl=en">Junwei
+                                    Han</a><sup>1,3</sup>
+                            </span>
+                        </div>
+
+                        <div class="is-size-5 publication-authors">
+                            <span class="author-block"><sup>1</sup>Northwestern Polytechnical University</span>
+                            <span class="author-block"><sup>2</sup>ByteDance Research</span>
+                            <span class="author-block"><sup>3</sup>Tsinghua University</span>
+                        </div>
+
+                        <div class="column has-text-centered">
+                            <div class="publication-links">
+                                <!-- PDF Link. -->
+                                <span class="link-block">
+                                    <a href="pdf/DepthCrafter.pdf"
+                                        class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon">
+                                            <i class="fas fa-file-pdf"></i>
+                                        </span>
+                                        <span>Paper</span>
+                                    </a>
+                                </span>
+                                <span class="link-block">
+                                    <a href="https://arxiv.org/abs/2409.02095"
+                                        class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon">
+                                            <i class="ai ai-arxiv"></i>
+                                        </span>
+                                        <span>arXiv</span>
+                                    </a>
+                                </span>
+                                <span class="link-block">
+                                    <a href="https://github.com/Tencent/DepthCrafter"
+                                        class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon">
+                                            <i class="fab fa-github"></i>
+                                        </span>
+                                        <span>Code</span>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="section">
+        <div class="container is-max-desktop">
+            <!-- Abstract. -->
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-full-width">
+                    <div class="content has-text-justified">
+                        <video id="main-video" autobuffer muted autoplay loop controls playsinline>
+                            <source id="mp4" src="./static/images/video_full.mp4" type="video/mp4">
+                        </video>
+                        <h3 class="subtitle has-text-centered">
+                            We propose <span class="dnerf">LangSurf</span>, a model that aligns language features with
+                            object surfaces to enhance 3D scene understanding
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <!--/ Abstract. -->
+        </div>
+    </section>
+
+    <hr> <!-- 这里是分割线 -->
+
+    <section class="section">
+        <div class="container is-max-desktop">
+            <!-- Abstract. -->
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-full-width">
+                    <h2 class="title is-3">Brief introduction</h2>
+                    <div class="content has-text-justified">
+                        <b>Abstract.</b>
+                        Applying Gaussian Splatting to perception tasks for 3D scene understanding is becoming increasingly popular. Most existing works primarily focus on rendering 2D feature maps from novel viewpoints, which leads to an imprecise 3D language field with outlier languages, ultimately failing to align objects in 3D space.
+                        By utilizing masked images for feature extraction, these approaches also lack essential contextual information, leading to inaccurate feature representation.
+                        To address these issues, we propose a LangSurf, which accurately aligns the 3D language fields with the surface of objects, facilitating precise 2D and 3D segmentation with text query, widely expanding the downstream tasks such as removal and editing.
+                        The core of LangSurf is a joint training strategy that flattens the language Gaussian on the object surfaces using geometry supervision and contrastive losses to assign accurate language features to the Gaussians of objects.
+                        In addition, we also introduce the Hierarchical-Context Awareness Module to extract features at the image level for contextual information then perform hierarchical mask pooling using masks segmented by SAM to obtain fine-grained language features in different hierarchies.
+                        Extensive experiments on open-vocabulary 2D and 3D semantic segmentation demonstrate that LangSurf outperforms the previous SOTA method by a large margin. 
+                        Our method is capable of segmenting objects in 3D space, boosting the effectiveness of our approach in instance recognition, removal, and editing, which is also supported by comprehensive experiments.
+
+                        <img src="./static/images/framework.png">
+                        <p> Overview of proposed LangSurf. Given input views, we reconstruct a language-embedded surface field to enable 2D / 3D open-vocabulary segmentation as well as downstream tasks. 
+                            Our pipeline contains two main steps: 1) Hierarchical-Context Awareness Module extracts context-aware features with multiple hierarchies; 
+                            2) Language-Embedded Training utilizes a joint training strategy to construct language-embedded surface field.</p>
+                    </div>
+                </div>
+            </div>
+            <!--/ Abstract. -->
+        </div>
+    </section>
+
+
+    <script>
+        $(window).on('load', function () {
+            bulmaCarousel.attach('#results-carousel-horizontal', {
+                slidesToScroll: 1,
+                slidesToShow: 1,
+                loop: true,
+                autoplay: false,
+            });
+
+            bulmaCarousel.attach('#results-carousel-vertical', {
+                slidesToScroll: 1,
+                slidesToShow: 1,
+                loop: true,
+                autoplay: false,
+            });
+
+        });
+    </script>
+
+
+    <br><br><br>
+
+    <!-- <section class="hero teaser is-light is-small">
+    <div class="hero-body">
+        <div class="container" style="text-align: center; ">
+            <h2 class="title is-3">Comparison with representative methods on labeled datasets</h2>
+            <div id="cmp-gt-carousel-horizontal" class="carousel results-carousel">
+
+                <video muted autoplay="autoplay" loop="loop" width="90%" preload controls>
+                    <source src="./video/compare_with_gt/Sintel_01.mp4" type="video/mp4">
+                </video>
+                <video muted autoplay="autoplay" loop="loop" width="90%" preload controls>
+                    <source src="./video/compare_with_gt/Sintel_02.mp4" type="video/mp4">
+                </video>
+
+                <video muted autoplay="autoplay" loop="loop" width="90%" preload controls>
+                    <source src="./video/compare_with_gt/KITTI_02.mp4" type="video/mp4">
+                </video>
+                <video muted autoplay="autoplay" loop="loop" width="90%" preload controls>
+                    <source src="./video/compare_with_gt/KITTI_01.mp4" type="video/mp4">
+                </video>
+
+                <video muted autoplay="autoplay" loop="loop" width="100%" preload controls>
+                    <source src="./video/compare_with_gt/Bonn_01.mp4" type="video/mp4">
+                </video>
+                <video muted autoplay="autoplay" loop="loop" width="100%" preload controls>
+                    <source src="./video/compare_with_gt/Bonn_02.mp4" type="video/mp4">
+                </video>
+
+                <video muted autoplay="autoplay" loop="loop" width="100%" preload controls>
+                    <source src="./video/compare_with_gt/Scannet_01.mp4" type="video/mp4">
+                </video>
+
+            </div>
+
+
+        </div>
+    </div>
+</section> -->
+
+    <script>
+        $(window).on('load', function () {
+            bulmaCarousel.attach('#cmp-gt-carousel-horizontal', {
+                slidesToScroll: 1,
+                slidesToShow: 1,
+                loop: true,
+                autoplay: false,
+            });
+
+        });
+    </script>
+
+
+
+    <section class="hero teaser is-light is-small">
+        <div class="hero-body">
+
+            <div class="container" style="text-align: center; ">
+                <h2 class="title is-3">Language-Embedded Surface Fields</h2>
+                <div id="comparison-carousel-horizontal" class="carousel results-carousel">
+
+                    <div class="twentytwenty-container twentytwenty-container-bottom">
+                        <div class="cmpcontent">
+                            <video muted autoplay="autoplay" loop="loop" width="100%">
+                                <source src="./static/images/langsplat_ramen_pc.mkv" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="cmpcontent">
+                            <video muted autoplay="autoplay" loop="loop" width="100%">
+                                <source src="./static/images/langsurf_ramen_pc.mkv" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                    <div class="twentytwenty-container twentytwenty-container-bottom">
+                        <div class="cmpcontent">
+                            <video muted autoplay="autoplay" loop="loop" width="100%">
+                                <source src="./static/images/langsplat_teatime_pc.mkv" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="cmpcontent">
+                            <video muted autoplay="autoplay" loop="loop" width="100%">
+                                <source src="./static/images/langsurf_teatime_pc.mkv" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                    <div class="twentytwenty-container twentytwenty-container-bottom">
+                        <div class="cmpcontent">
+                            <video muted autoplay="autoplay" loop="loop" width="100%">
+                                <source src="./static/images/langsplat_0616_pc.mkv" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="cmpcontent">
+                            <video muted autoplay="autoplay" loop="loop" width="100%">
+                                <source src="./static/images/langsurf_0616_pc.mkv" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                    <div class="twentytwenty-container twentytwenty-container-bottom">
+                        <div class="cmpcontent">
+                            <video muted autoplay="autoplay" loop="loop" width="100%">
+                                <source src="./static/images/langsplat_0617_pc.mkv" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="cmpcontent">
+                            <video muted autoplay="autoplay" loop="loop" width="100%">
+                                <source src="./static/images/langsurf_0617_pc.mkv" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                    <div class="twentytwenty-container twentytwenty-container-bottom">
+                        <div class="cmpcontent">
+                            <video muted autoplay="autoplay" loop="loop" width="100%">
+                                <source src="./static/images/langsplat_kitchen_pc.mkv" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="cmpcontent">
+                            <video muted autoplay="autoplay" loop="loop" width="100%">
+                                <source src="./static/images/langsurf_kitchen_pc.mkv" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        $(window).on('load', function () {
+            bulmaCarousel.attach('#comparison-carousel-horizontal', {
+                slidesToScroll: 2,
+                slidesToShow: 2,
+                loop: true,
+                autoplay: false,
+            });
+
+            $(".twentytwenty-container-bottom").twentytwenty({
+                before_label: 'LangSplat',
+                after_label: 'Ours',
+                default_offset_pct: 0.3,
+                no_overlay: false,
+                // move_slider_on_hover: true,
+            });
+
+        });
+    </script>
+
+
+    <section class="hero teaser is-small">
+        <div class="hero-body">
+
+            <div class="container" style="text-align: center; ">
+                <h2 class="title is-3">Open-Vocabulary 2D Query</h2>
+                <div id="comparison-carousel-horizontal" class="carousel results-carousel">
+                    <div class="cmpcontent">
+                        <video muted autoplay="autoplay" loop="loop" width="100%">
+                            <source src="./static/images/2d query-web1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="cmpcontent">
+                        <video muted autoplay="autoplay" loop="loop" width="100%">
+                            <source src="./static/images/2d query-web2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="cmpcontent">
+                        <video muted autoplay="autoplay" loop="loop" width="100%">
+                            <source src="./static/images/2d query-web3.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="cmpcontent">
+                        <video muted autoplay="autoplay" loop="loop" width="100%">
+                            <source src="./static/images/2d query-web4.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="cmpcontent">
+                        <video muted autoplay="autoplay" loop="loop" width="100%">
+                            <source src="./static/images/2d query-web5.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="cmpcontent">
+                        <video muted autoplay="autoplay" loop="loop" width="100%">
+                            <source src="./static/images/2d query-web6.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-body">
+            <div class="container " style="text-align: center; ">
+                <h2 class="title is-3"> Open-Vocabulary 3D Query</h2>
+                <div id="removal-carousel-horizontal" class="carousel results-carousel">
+                    <video muted autoplay="autoplay" loop="loop" width="100%">
+                        <source src="./static/images/3d query-teatime.mp4" type="video/mp4">
+                    </video>
+                    <video muted autoplay="autoplay" loop="loop" width="100%">
+                        <source src="./static/images/3d query-kitchen.mp4" type="video/mp4">
+                    </video>
+                    <video muted autoplay="autoplay" loop="loop" width="100%">
+                        <source src="./static/images/3d query-616.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <br><br><br>
+
+
+    <script>
+        $(window).on('load', function () {
+            bulmaCarousel.attach('#removal-carousel-horizontal', {
+                slidesToScroll: 1,
+                slidesToShow: 1,
+                loop: true,
+                autoplay: false,
+            });
+
+            $(".twentytwenty-container-removal").twentytwenty({
+                before_label: 'Gaussian Grouping',
+                after_label: 'Ours',
+                default_offset_pct: 0.3,
+                no_overlay: false,
+            });
+
+        });
+    </script>
+
+    <section class="hero teaser is-light is-small">
+        <div class="hero-body">
+            <div class="container " style="text-align: center; ">
+                <h2 class="title is-3"> Object Removal</h2>
+                <p class="title is-4">Our method surpasses existing baselines with better visual and geometry quality.
+                </p>
+                <div id="removal-carousel-horizontal" class="carousel results-carousel">
+
+                    <div class="twoitem_row">
+                        <video muted autoplay="autoplay" loop="loop" width="46%">
+                            <source src="./static/images/removal-noodles_original_3.mp4" type="video/mp4">
+                        </video>
+                        <div class="twoitem_row">
+                            <div class="twentytwenty-container twentytwenty-container-removal" width="50%">
+                                <div class="cmpcontent">
+                                    <video muted autoplay="autoplay" loop="loop" width="100%">
+                                        <source src="./static/images/removal-noodles_grouping_rgb.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                                <div class="cmpcontent">
+                                    <video muted autoplay="autoplay" loop="loop" width="100%">
+                                        <source src="./static/images/removal-noodles_our_rgb.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                            </div>
+                            <div class="twentytwenty-container twentytwenty-container-removal" width="50%">
+                                <div class="cmpcontent">
+                                    <video muted autoplay="autoplay" loop="loop" width="100%">
+                                        <source src="./static/images/removal-noodles_grouping_normal.mp4"
+                                            type="video/mp4">
+                                    </video>
+                                </div>
+                                <div class="cmpcontent">
+                                    <video muted autoplay="autoplay" loop="loop" width="100%">
+                                        <source src="./static/images/removal-noodles_our_normal.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="twoitem_row">
+                        <video muted autoplay="autoplay" loop="loop" width="46%">
+                            <source src="./static/images/removal-bag_original_3.mp4" type="video/mp4">
+                        </video>
+                        <div class="twoitem_row">
+                            <div class="twentytwenty-container twentytwenty-container-removal" width="50%">
+                                <div class="cmpcontent">
+                                    <video muted autoplay="autoplay" loop="loop" width="100%">
+                                        <source src="./static/images/removal-bag_grouping_rgb.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                                <div class="cmpcontent">
+                                    <video muted autoplay="autoplay" loop="loop" width="100%">
+                                        <source src="./static/images/removal-bag_our_rgb.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                            </div>
+                            <div class="twentytwenty-container twentytwenty-container-removal" width="50%">
+                                <div class="cmpcontent">
+                                    <video muted autoplay="autoplay" loop="loop" width="100%">
+                                        <source src="./static/images/removal-bag_grouping_normal.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                                <div class="cmpcontent">
+                                    <video muted autoplay="autoplay" loop="loop" width="100%">
+                                        <source src="./static/images/removal-bag_our_normal.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <br><br><br>
+
+    <section class="hero">
+        <div class="container">
+            <div class="columns is-centered">
+
+                <div class="column">
+                    <div class="content">
+                        <h2 class="title is-3">Object Adding</h2>
+                        <video muted autoplay="autoplay" loop="loop" width="100%">
+                            <source src="./static/images/object add.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="content">
+                        <h2 class="title is-3">Object Editting</h2>
+                        <video muted autoplay="autoplay" loop="loop" width="100%">
+                            <source src="./static/images/object edit.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <br><br><br>
+
+
+    <section class="hero is-light">
+        <div class="hero-body">
+            <div class="container" style="text-align: center; ">
+
+                <h2 class="title is-3">Interactable Model</h2>
+                <div class="columns is-centered has-text-centered">
+                    <div class="columns">
+                        <div class="column is-one-fourth">
+                            <p>GT Mesh</p>
+                            <model-viewer src="./static/images/0085/scene0085_00_vh_clean_2.glb" ar
+                                ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral"
+                                poster="poster.webp" shadow-intensity="1" camera-orbit="-5.999deg 129.8deg 15.83m"
+                                field-of-view="22.19deg" auto-rotate> </model-viewer>
+                        </div>
+                        <div class="column is-one-fourth">
+                            <p>Bed</p>
+                            <model-viewer src="./static/images/0085/langsurf_bed_0.glb" ar
+                                ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral"
+                                poster="poster.webp" shadow-intensity="1" camera-orbit="-5.999deg 129.8deg 15.83m"
+                                field-of-view="22.19deg" auto-rotate> </model-viewer>
+                        </div>
+                        <div class="column is-one-fourth">
+                            <p>Cabinet</p>
+                            <model-viewer src="./static/images/0085/langsurf_cabinet_0.glb" ar
+                                ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral"
+                                poster="poster.webp" shadow-intensity="1" camera-orbit="-5.999deg 129.8deg 15.83m"
+                                field-of-view="22.19deg" auto-rotate> </model-viewer>
+                        </div>
+                        <div class="column is-one-fourth">
+                            <p>Chair</p>
+                            <model-viewer src="./static/images/0085/langsurf_chair_0.glb" ar
+                                ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral"
+                                poster="poster.webp" shadow-intensity="1" camera-orbit="-5.999deg 129.8deg 15.83m"
+                                field-of-view="22.19deg" auto-rotate> </model-viewer>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="columns is-centered has-text-centered">
+                    <div class="columns">
+                        <div class="column is-one-fourth">
+                            <p>GT Mesh</p>
+                            <model-viewer src="./static/images/0617/scene0617_00_vh_clean_2.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="poster.webp" shadow-intensity="1" camera-orbit="-7.289deg 100.6deg 21.42m" field-of-view="21.15deg">
+                        </div>
+                        <div class="column is-one-fourth">
+                            <p>Floor</p>
+                            <model-viewer src="./static/images/0617/langsurf_floor_0.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="poster.webp" shadow-intensity="1" camera-orbit="-7.289deg 100.6deg 21.42m" field-of-view="21.15deg">
+                        </div>
+                        <div class="column is-one-fourth">
+                            <p>Bookshelf</p>
+                            <model-viewer src="./static/images/0617/langsurf_bookshelf_0.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="poster.webp" shadow-intensity="1" camera-orbit="-7.289deg 100.6deg 21.42m" field-of-view="21.15deg">
+                        </div>
+                        <div class="column is-one-fourth">
+                            <p>Curtain</p>
+                            <model-viewer src="./static/images/0617/langsurf_curtain_0.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="poster.webp" shadow-intensity="1" camera-orbit="-7.289deg 100.6deg 21.42m" field-of-view="21.15deg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="hero teaser" id="BibTeX">
+        <div class="hero-body">
+            <div class="column is-three-fifths" style=" margin-top: 30px; margin-bottom: 20px;">
+                <h2 class="title is-3">BibTeX</h2>
+                <!-- <pre><code>@article{hu2024-DepthCrafter,
+            author      = {Hu, Wenbo and Gao, Xiangjun and Li, Xiaoyu and Zhao, Sijie and Cun, Xiaodong and Zhang, Yong and Quan, Long and Shan, Ying},
+            title       = {DepthCrafter: Generating Consistent Long Depth Sequences for Open-world Videos},
+            journal     = {arXiv preprint arXiv:2409.02095},
+            year        = {2024}
+    }</code></pre> -->
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="footer">
+        <div class="hero-body">
+            <div class="columns is-two-fifths is-centered">
+                <div class="column is-8">
+                    <div class="content">
+                        <p>
+                            Website template credit to <a
+                                href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>, and is licensed under a
+                            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+                                Commons Attribution-ShareAlike 4.0 International License</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
